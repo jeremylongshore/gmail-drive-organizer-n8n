@@ -1,0 +1,69 @@
+name: Feature Request
+description: Suggest an enhancement for the workflow
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement! Help us understand your idea.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem would this feature solve?
+      placeholder: I'm frustrated when... or It would be helpful if...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How would you like this to work?
+      placeholder: The workflow could...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: workflow-area
+    attributes:
+      label: Workflow Area
+      description: Which part of the workflow would this affect?
+      options:
+        - Lead Capture (Tally/Webhook)
+        - Data Validation
+        - AI Scoring System
+        - Airtable Integration
+        - Follow-up Sequences
+        - Notifications/Alerts
+        - Reporting/Analytics
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you thought of other ways to solve this?
+      placeholder: I considered using... but...
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this to you?
+      options:
+        - Nice to have
+        - Would improve workflow
+        - Important for my use case
+        - Critical/Blocking
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Screenshots, examples, or mockups
+      placeholder: Here's an example of how this might work...

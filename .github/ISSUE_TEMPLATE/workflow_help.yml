@@ -1,0 +1,63 @@
+name: Workflow Help
+description: Get help setting up or troubleshooting the workflow
+title: "[Help]: "
+labels: ["question", "help-wanted"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Need help with the workflow? We're here to assist!
+
+  - type: dropdown
+    id: help-type
+    attributes:
+      label: Type of Help Needed
+      options:
+        - Initial Setup/Installation
+        - Credential Configuration
+        - Tally Form Setup
+        - Airtable Configuration
+        - Understanding Workflow Logic
+        - Customization Question
+        - Performance/Optimization
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What do you need help with?
+      placeholder: I'm trying to... but I'm not sure how to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What Have You Tried?
+      description: What steps have you already taken?
+      placeholder: I tried... but it didn't work because...
+
+  - type: input
+    id: n8n-version
+    attributes:
+      label: n8n Version
+      placeholder: "1.110.1"
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: n8n Deployment Type
+      options:
+        - n8n Cloud
+        - Self-hosted
+        - Not yet installed
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Screenshots, error messages, or configuration details
+      placeholder: Here's what I'm seeing...

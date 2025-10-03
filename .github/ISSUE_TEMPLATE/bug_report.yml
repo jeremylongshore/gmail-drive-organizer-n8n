@@ -1,0 +1,101 @@
+name: Bug Report
+description: Report a problem with the n8n workflow
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please provide as much detail as possible.
+
+  - type: dropdown
+    id: workflow-component
+    attributes:
+      label: Workflow Component
+      description: Which part of the workflow is affected?
+      options:
+        - Tally Webhook
+        - Data Validation & Cleaning
+        - AI Lead Scoring
+        - Airtable Integration
+        - Error Handling
+        - Other/Unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear description of what the bug is
+      placeholder: When I submit a lead form, the workflow fails at...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Submit Tally form with...
+        2. Check n8n execution log...
+        3. See error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen?
+      placeholder: Lead should be scored and saved to Airtable
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happens?
+      placeholder: Workflow fails with error message...
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: Error Logs
+      description: Paste any error messages from n8n execution logs
+      render: shell
+      placeholder: |
+        Error in node 'Validate & Clean Data':
+        TypeError: Cannot read property...
+
+  - type: input
+    id: n8n-version
+    attributes:
+      label: n8n Version
+      description: What version of n8n are you using?
+      placeholder: "1.110.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: n8n Deployment
+      options:
+        - n8n Cloud
+        - Self-hosted (Docker)
+        - Self-hosted (npm)
+        - Self-hosted (other)
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other relevant information
+      placeholder: This started happening after I changed...
