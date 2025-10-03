@@ -1,0 +1,33 @@
+{
+  "name": "n8n-workflow-template",
+  "version": "1.0.0",
+  "description": "Template for creating professional n8n workflow repositories with automated documentation",
+  "keywords": [
+    "n8n",
+    "automation",
+    "workflow",
+    "template",
+    "intentsolutionio",
+    "n8n-nodes",
+    "integration"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/[username]/[repo-name].git"
+  },
+  "bugs": {
+    "url": "https://github.com/[username]/[repo-name]/issues"
+  },
+  "homepage": "https://[username].github.io/[repo-name]/",
+  "engines": {
+    "n8n": ">=1.0.0"
+  },
+  "scripts": {
+    "validate": "jq . workflow/workflow.json > /dev/null && echo 'Workflow JSON is valid'",
+    "check-secrets": "grep -i 'password\\|token\\|secret\\|key' workflow/workflow.json || echo 'No obvious secrets found'"
+  },
+  "devDependencies": {},
+  "private": false
+}

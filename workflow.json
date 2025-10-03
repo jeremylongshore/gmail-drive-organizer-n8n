@@ -1,0 +1,278 @@
+{
+  "name": "Day4_Organize Email Attachments from Gmail to Structured Google Drive Folders",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "id": "f0c308d6-9347-441b-a78b-b25de884f942",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "position": [
+        580,
+        420
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "c7wzXsQ9uLeEGw1d",
+          "name": "staymila"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "=Motion - {{ $node[\"Gmail Trigger\"].json.subject || \"Untitled\" }} - {{ $now }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "id": "435c21d8-7d23-447d-a081-a4991ba42a41",
+      "name": "Create Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        1180,
+        420
+      ],
+      "executeOnce": true,
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bK14bxXgV4nE43oO",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "87e927b3-4f28-4843-b2d0-cf7269437fca",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              },
+              "leftValue": "={{ $json.sizeEstimate }}",
+              "rightValue": 400
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e4aef0db-b072-4dc7-80e0-cd3658555bda",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "position": [
+        780,
+        420
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $node[\"Gmail Trigger\"].json.id }}",
+        "simple": false,
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "id": "4218230f-ccd0-4b8b-a4b3-54749ce8a738",
+      "name": "Gmail1",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        980,
+        420
+      ],
+      "webhookId": "e25bd1d4-d39f-4620-a5db-d6d3d9db6843",
+      "typeVersion": 2.1,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "c7wzXsQ9uLeEGw1d",
+          "name": "staymila"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "833ab358-ce62-4acf-847e-0251bfb8e123",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        1500,
+        480
+      ],
+      "typeVersion": 3.1
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "$binary",
+        "options": {
+          "includeBinary": true
+        }
+      },
+      "id": "55de30ff-40de-4b51-b5bd-0c00fbba80be",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "position": [
+        1180,
+        620
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $json.name }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1VSG_dNm_OHXkp1N4_TJJryLe9ZbXtNFf",
+          "mode": "list",
+          "cachedResultName": "250926_attachments",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1VSG_dNm_OHXkp1N4_TJJryLe9ZbXtNFf"
+        },
+        "options": {}
+      },
+      "id": "54a70814-0185-420b-a7e7-66ed811fae3c",
+      "name": "Upload file",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        1840,
+        480
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bK14bxXgV4nE43oO",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Create Folder": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "236ed11b-5eb7-4572-a165-ebe5ae2f6bd7",
+  "meta": {
+    "templateId": "4977",
+    "instanceId": "97320dcb467cb5c2cea1bd9a8911382570c60877bdbe1a87e19328042db75e3c"
+  },
+  "id": "c1uPuQaRZcm8JaF1",
+  "tags": []
+}
